@@ -1,0 +1,5 @@
+frontend: {}
+homeassistant:
+  name: home-assistant
+lovelace:
+  mode: yaml

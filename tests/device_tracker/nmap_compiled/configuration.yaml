@@ -1,0 +1,10 @@
+device_tracker:
+- home_interval: 5
+  hosts: 10.0.0.*
+  interval_seconds: 30
+  platform: nmap_tracker
+  scan_options: ' --privileged -sP '
+homeassistant:
+  customize:
+    device_tracker.presence_nmap_tracker: {}
+  name: home-assistant

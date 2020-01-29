@@ -1,0 +1,10 @@
+title: home-assistant
+views:
+- entities:
+  - input_select.media_sony_bravia_tv_sources
+  - input_number.media_sony_bravia_tv_volume
+  - automation.media_sony_bravia_tv_volume_init
+  - automation.media_sony_bravia_tv_volume_update
+  show_header_toggle: false
+  title: TV Control
+  type: entities
