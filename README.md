@@ -54,15 +54,46 @@ As you build your own mixins/configs, you should add additional `-J` paths.
 
 ## Examples
 
-Simple Phillips Hue config:
+Simple Configuration example:
 
 ```jsonnet
 local config = import 'home-assistant-libsonnet/config.libsonnet';
 
+local parameters = {
+  id: 'presence_nmap',
+  name: 'NMAP Tracker',
+  hosts: '10.0.0.*',
+};
 
-local config = import '../hassonnet/config.libsonnet';
-local mixins = (import '../mixins/light-phillips-hue-mixin/mixin.libsonnet') +
-               (import '../mixins/gateway-mixin/mixin.libsonnet');
+config.new(
+  entities={
+    presence_nmap: {
+      device_tracker: {
+        ['%(id)s_tracker' % parameters]: {
+          home_interval: 5,
+          hosts: parameters.hosts,
+          interval_seconds: 30,
+          platform: 'nmap_tracker',
+          scan_options: ' --privileged -sP ',
+        },
+      },
+    },
+  },
+)
+```
+
+Simple Phillips Hue config using mixins:
+
+```jsonnet
+local config = import 'home-assistant-libsonnet/config.libsonnet';
+
+local mixins = (import 'home-assistant-/light-phillips-hue-mixin/mixin.libsonnet') +
+               (import 'home-assistant-/gateway-mixin/mixin.libsonnet');
+
+local gateway = {
+  host: '<<hostname/ip>>',
+  username: '<<username>>',
+};
 
 local parameters = {
   id: 'light_phillips_hue_color',
@@ -70,72 +101,23 @@ local parameters = {
   hue_group: 'livingroom',
   hue_lights: [
     'light.livingroom',
-    'light.livingroom_wall_1',
-    'light.livingroom_wall_2',
   ],
   scenes: [
     'Bright',
     'Relax',
-
     'Energize',
-    'Spring blossom',
-    'Tropical twilight',
   ],
   initial_scene: 'Relax',
-  initial_brightness: 128,
 };
 
 config.new(
-  name='Location Name',
   components={
     phillips_hue_gateway:
-      mixins.phillips_hue_gateway_component({
-        host: '<<hostname/ip>>',
-        username: '<<username>>',
-      }),
+      mixins.phillips_hue_gateway_component(gateway),
   },
   entities={
     light_phillips_hue_color:
       mixins.light_phillips_hue_color_entities(parameters),
-  },
-)
-
-
-local mixins = (import 'mixins/light_hue/mixin.libsonnet');
-
-config.new(
-  name='test',
-  components={
-    phillips_hue_bridge: {
-      ip: '10.0.0.1',
-    },
-  },
-  entities={
-    livingroom_room_lights: mixins.light_hue_color_entities({
-      name: 'livingroom_lights',
-      hue_group: 'livingroom',
-      light_scenes: [
-        'Bright',
-        'Relax',
-        'Arctic aurora',
-        'Savanna sunset',
-        'Nightlight',
-        'Dimmed',
-        'Read',
-        'Concentrate',
-        'Energize',
-        'Spring blossom',
-        'Tropical twilight',
-      ],
-      initial_scene: 'Relax',
-      initial_brightness: 128,
-    }),
-  },
-  dashboards={
-    livingroom_room_lights_control: mixins.light_hue_color_control_card({
-      name: 'livingroom_lights',
-      hue_group: 'livingroom',
-    }),
   },
 )
 ```
