@@ -122,7 +122,7 @@ config.new(
 )
 ```
 
-Find more examples in the [examples](examples/) directory.
+Find more examples in the [mixins](https://github.com/cznewt/home-assistant-mixins) repository.
 
 [brew]:https://brew.sh/
 [jsonnet]:http://jsonnet.org/

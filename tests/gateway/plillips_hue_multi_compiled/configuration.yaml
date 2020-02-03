@@ -1,0 +1,10 @@
+homeassistant:
+  name: home-assistant
+hue:
+  bridges:
+  - allow_hue_groups: true
+    allow_unreachable: true
+    host: <<hostname/ip1>>
+  - allow_hue_groups: true
+    allow_unreachable: true
+    host: <<hostname/ip2>>
