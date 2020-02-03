@@ -150,7 +150,7 @@ local entity_domains = [
         [if std.length(this._entities.climate) > 0 then 'climate']:
           hass.climate.list(this._entities.climate),
 
-        [if std.length(this._entities.climate) > 0 then 'cover']:
+        [if std.length(this._entities.cover) > 0 then 'cover']:
           hass.cover.list(this._entities.cover),
 
         [if std.length(this._entities.device_tracker) > 0 then 'device_tracker']:
